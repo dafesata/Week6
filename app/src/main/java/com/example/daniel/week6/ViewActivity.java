@@ -11,6 +11,7 @@ import android.widget.EditText;
 public class ViewActivity extends Activity {
     EditText editText1,editText2;
     private String TAG= Constanst.TAG;
+    private boolean viewmode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,9 +20,27 @@ public class ViewActivity extends Activity {
         editText1 = (EditText) findViewById(R.id.editField1);
         editText2 = (EditText) findViewById(R.id.editField2);
 
+        Bundle bundle= getIntent().getExtras();
+        if(bundle!=null){
+            viewmode=true;
+            DataEntry dataEntry = (DataEntry) bundle.getSerializable("Entryview");
+            editText1.setText(dataEntry.field1+"");
+            editText2.setText(dataEntry.field2+"");
+
+        }else{
+            viewmode=false;
+        }
+        editText1.setFocusable(!viewmode);
+        editText1.setFocusableInTouchMode(!viewmode);
+        editText2.setFocusable(!viewmode);
+        editText2.setFocusableInTouchMode(!viewmode);
+
     }
 
     public void onClickAceptar(View view){
+        if(viewmode){
+            finish();
+        }
         if(TextUtils.isEmpty(editText1.getText().toString())){
             editText1.setError("No puede estar vacio");
         }else{

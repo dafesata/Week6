@@ -41,15 +41,17 @@ public class MainActivity extends AppCompatActivity {
 
         list.setAdapter(customAdapter);
 
-
-
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d(TAG,"Click en "+i);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DataEntry dataEntry = (DataEntry) list.getItemAtPosition(position);
+                Log.d(TAG,"Click en Botton "+dataEntry.id);
+                Intent iview= new Intent(MainActivity.this,ViewActivity.class);
+                Bundle mBundle= new Bundle();
+                mBundle.putSerializable("Entryview",dataEntry);
+                iview.putExtras(mBundle);
+                startActivity(iview);
             }
-
-
         });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -106,11 +108,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void OnClickButtonRow(View view){
         DataEntry dataEntry= (DataEntry) view.getTag();
-        Log.d(TAG,"Click en Botton "+dataEntry.id);
-        //mDataEntryDao.deleteEntry(dataEntry);
-       // Entries = mDataEntryDao.getAllEntrys();
-       // customAdapter.setData(Entries);
-       // ((CustomAdapter)list.getAdapter()).notifyDataSetChanged();
+        Log.d(TAG,"Click en "+dataEntry.id);
+        mDataEntryDao.deleteEntry(dataEntry);
+        Entries = mDataEntryDao.getAllEntrys();
+        customAdapter.setData(Entries);
+        ((CustomAdapter)list.getAdapter()).notifyDataSetChanged();
 
     }
 }

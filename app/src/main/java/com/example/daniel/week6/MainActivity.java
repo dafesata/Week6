@@ -102,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode== Activity.RESULT_OK){
                 DataEntry de= (DataEntry) data.getSerializableExtra("entry");
                 mDataEntryDao.addDataEntry(de);
+                Entries = mDataEntryDao.getAllEntrys();
+                customAdapter.setData(Entries);
+                ((CustomAdapter)list.getAdapter()).notifyDataSetChanged();
             }
         }
     }
